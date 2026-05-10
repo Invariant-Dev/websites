@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WPL Lore</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 0;
+            background-color: #1a1a2e;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+            border-bottom: 2px solid #30475e;
+            padding-bottom: 20px;
+        }
+        .header h1 {
+            color: #00d2ff;
+            font-size: 28pt;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+        }
+        .header p {
+            color: #94a3b8;
+            font-size: 12pt;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+        /* The central line */
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            background-color: #30475e;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -2px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        /* The circles on the line */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            right: -10px;
+            background-color: #1a1a2e;
+            border: 4px solid #00d2ff;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; text-align: left; }
+        .right::after { left: -10px; }
+
+        .content {
+            padding: 20px;
+            background-color: #16213e;
+            position: relative;
+            border-radius: 8px;
+            border-top: 4px solid #00d2ff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .period {
+            font-weight: bold;
+            color: #00d2ff;
+            display: block;
+            margin-bottom: 5px;
+            font-size: 10pt;
+        }
+        .title {
+            font-size: 14pt;
+            margin: 5px 0;
+            color: #ffffff;
+        }
+        .subtitle {
+            font-style: italic;
+            color: #94a3b8;
+            margin-bottom: 10px;
+            display: block;
+            font-size: 11pt;
+        }
+        .description {
+            font-size: 10pt;
+            line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>The WPL Chronicles</h1>
+    </div>
+    <div class="container">
+
+        <div class="timeline-item left">
+            <div class="content" style="border-top-color: #e74c3c;">
+                <span class="period" style="color: #e74c3c;">Feb 2017 - Dec 2017</span>
+                <h2 class="title">The Scooter Party Period</h2>
+                <span class="subtitle">The Tribal Era</span>
+                <p class="description">The moment the WPL lore began. A time of early friendships and classic games like Hide and Seek and Apocalypse.</p>
+            </div>
+        </div>
+    
+        <div class="timeline-item right">
+            <div class="content" style="border-top-color: #f39c12;">
+                <span class="period" style="color: #f39c12;">Jan 2018 - Feb 2019</span>
+                <h2 class="title">Infrastructure Expansion</h2>
+                <span class="subtitle">Unification of Core Members</span>
+                <p class="description">Introduction of Kaihaan, Kian, and Vihaan. New games like Virus and Floor is Lava expanded the Waterview world.</p>
+            </div>
+        </div>
+    
+        <div class="timeline-item left">
+            <div class="content" style="border-top-color: #c0392b;">
+                <span class="period" style="color: #c0392b;">Feb 2019 - July 2019</span>
+                <h2 class="title">The Waterview War</h2>
+                <span class="subtitle">The Great Schism</span>
+                <p class="description">A dark time of conflict, cockfighting, and rock throwing. Peace was eventually brokered by overseers.</p>
+            </div>
+        </div>
+    
+        <div class="timeline-item right">
+            <div class="content" style="border-top-color: #27ae60;">
+                <span class="period" style="color: #27ae60;">June 2019 - Jan 2020</span>
+                <h2 class="title">The Restoration</h2>
+                <span class="subtitle">Post-War Era</span>
+                <p class="description">Reunion of the friend group. Introduction of 'high-ground' games like Skyers and Marco Polo.</p>
+            </div>
+        </div>
+    
+        <div class="timeline-item left">
+            <div class="content" style="border-top-color: #3498db;">
+                <span class="period" style="color: #3498db;">Jan 2020 - March 2020</span>
+                <h2 class="title">Calm Before the Storm</h2>
+                <span class="subtitle">The Chintangla Introduction</span>
+                <p class="description">A brief peace before the world changed. Introduction of YYON and Time Travel games.</p>
+            </div>
+        </div>
+    
+        <div class="timeline-item right">
+            <div class="content" style="border-top-color: #2c3e50;">
+                <span class="period" style="color: #2c3e50;">April 2020 - June 2022</span>
+                <h2 class="title">The Dark Ages</h2>
+                <span class="subtitle">The COVID Survival Era</span>
+                <p class="description">The hardest time for Waterview. Interaction was prohibited, members departed, and only real OGs survived.</p>
+            </div>
+        </div>
+    
+        <div class="timeline-item left">
+            <div class="content" style="border-top-color: #8e44ad;">
+                <span class="period" style="color: #8e44ad;">June 2022 - Dec 2023</span>
+                <h2 class="title">Cleanup</h2>
+                <span class="subtitle">The Birth of the WPL Term</span>
+                <p class="description">The transition into a football-centric culture. New members like Vidyut and Adam joined the ranks.</p>
+            </div>
+        </div>
+    
+        <div class="timeline-item right">
+            <div class="content" style="border-top-color: #16a085;">
+                <span class="period" style="color: #16a085;">Jan 2024 - June 2025</span>
+                <h2 class="title">A Different Peace</h2>
+                <span class="subtitle">The Dhyanam Unification</span>
+                <p class="description">Dhyanam finally joins. Nam gains F1 and football knowledge. The group reaches a new level of stability.</p>
+            </div>
+        </div>
+    
+        <div class="timeline-item left">
+            <div class="content" style="border-top-color: #2980b9;">
+                <span class="period" style="color: #2980b9;">June 2025 - Present</span>
+                <h2 class="title">The Modern Era</h2>
+                <span class="subtitle">The Future Unfolds</span>
+                <p class="description">Kickgyan's departure marks a new chapter. The WPL continues to evolve into the unknown.</p>
+            </div>
+        </div>
+    
+    </div>
+</body>
+</html>

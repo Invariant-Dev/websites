@@ -3,429 +3,331 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WPL Cinematic Universe</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>WPL: The Ten Year Lore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Sora:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-deep: #020205;
-            --text-main: #e0e0e0;
+            --bg: #050508;
             --gold: #d4af37;
             --cyan: #00f3ff;
             --red: #ff003c;
-            --glass-bg: rgba(15, 15, 20, 0.6);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --glass: rgba(10, 10, 15, 0.8);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body, html {
-            background-color: var(--bg-deep);
-            color: var(--text-main);
-            font-family: 'Montserrat', sans-serif;
+        body {
+            background-color: var(--bg);
+            color: #fff;
+            font-family: 'Sora', sans-serif;
             overflow-x: hidden;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(0, 243, 255, 0.05), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(212, 175, 55, 0.05), transparent 25%);
-            background-attachment: fixed;
-        }
-
-        h1, h2, h3, .cinematic-text {
-            font-family: 'Cinzel', serif;
-            text-transform: uppercase;
+            line-height: 1.6;
         }
 
         /* --- 1. STAR WARS INTRO --- */
-        #intro-sequence {
+        .intro-container {
             height: 100vh;
-            width: 100%;
-            position: relative;
+            background: #000;
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
             overflow: hidden;
-            background: #000;
+            z-index: 100;
         }
 
-        .star-wars-fade {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 30%;
-            background: linear-gradient(to bottom, #000 0%, transparent 100%);
-            z-index: 5;
-        }
-
-        .crawl-container {
-            perspective: 600px;
+        .crawl-wrapper {
+            perspective: 500px;
             width: 100%;
             height: 100%;
             display: flex;
             justify-content: center;
-            position: absolute;
-            bottom: -20%;
         }
 
-        .crawl-text {
-            width: 60%;
-            max-width: 800px;
+        .crawl-content {
+            width: 70%;
+            max-width: 900px;
             color: var(--gold);
-            font-size: 2rem;
-            line-height: 1.8;
-            font-weight: 600;
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
             text-align: justify;
-            transform-origin: 50% 100%;
-            transform: rotateX(25deg) translateY(100%);
-            animation: crawl 40s linear forwards;
+            transform: rotateX(25deg) translateY(100vh);
+            animation: crawlAction 45s linear forwards;
         }
 
-        .crawl-text h1 {
+        .crawl-content h1 {
+            font-size: 5rem;
             text-align: center;
-            font-size: 4rem;
             margin-bottom: 50px;
-            letter-spacing: 5px;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
         }
 
-        .crawl-text p {
+        .crawl-content p {
+            font-size: 2.2rem;
             margin-bottom: 40px;
+            line-height: 1.5;
         }
 
-        @keyframes crawl {
-            0% { transform: rotateX(25deg) translateY(100%); opacity: 0; }
+        @keyframes crawlAction {
+            0% { transform: rotateX(25deg) translateY(100vh); opacity: 0; }
             5% { opacity: 1; }
-            90% { opacity: 1; }
-            100% { transform: rotateX(25deg) translateY(-250%); opacity: 0; }
+            95% { opacity: 1; }
+            100% { transform: rotateX(25deg) translateY(-250vh); opacity: 0; }
         }
 
-        .scroll-indicator {
+        .skip-hint {
             position: absolute;
             bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: var(--cyan);
-            font-family: 'Cinzel', serif;
-            letter-spacing: 3px;
+            font-family: 'Cinzel';
+            letter-spacing: 5px;
+            color: rgba(255,255,255,0.3);
             animation: pulse 2s infinite;
-            z-index: 10;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.3; transform: translate(-50%, 0); }
-            50% { opacity: 1; transform: translate(-50%, 10px); }
-        }
-
-        /* --- 2. PINNED SCROLLING TIMELINE --- */
-        #timeline-trigger {
-            /* This height dictates how long the user scrolls to get through the timeline */
-            height: 600vh; 
+        /* --- 2. THE STICKY TIMELINE (The Fix) --- */
+        .timeline-section {
             position: relative;
+            /* Height dictates scroll duration. 600vh = long duration for cards. */
+            height: 700vh; 
+            background: var(--bg);
         }
 
-        #sticky-viewport {
+        .sticky-wrapper {
             position: sticky;
             top: 0;
             height: 100vh;
             width: 100vw;
-            overflow: hidden;
             display: flex;
             align-items: center;
+            overflow: hidden;
         }
 
-        #horizontal-track {
+        .horizontal-track {
             display: flex;
-            height: 100%;
+            padding-left: 15vw;
+            padding-right: 50vw;
             will-change: transform;
-            padding-left: 10vw; /* Start offset */
-            padding-right: 50vw; /* End offset */
+            transition: transform 0.1s ease-out;
         }
 
         .phase-card {
-            width: 80vw;
-            max-width: 1000px;
-            height: 70vh;
-            margin: 15vh 5vw;
             flex-shrink: 0;
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 50px;
+            width: 75vw;
+            max-width: 1100px;
+            height: 70vh;
+            margin-right: 10vw;
+            background: var(--glass);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 60px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
             position: relative;
-            overflow: hidden;
-            transition: opacity 0.5s, transform 0.5s;
         }
 
-        .phase-card::before {
+        .phase-card::after {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 4px;
-            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            inset: 0;
+            border-radius: 30px;
+            padding: 2px;
+            background: linear-gradient(135deg, var(--border), transparent, var(--border));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
         }
 
-        .phase-card.conflict::before { background: linear-gradient(90deg, transparent, var(--red), transparent); }
-        .phase-card.golden::before { background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+        .phase-header {
+            font-family: 'Cinzel';
+            border-left: 4px solid var(--cyan);
+            padding-left: 25px;
+        }
 
         .phase-date {
             color: var(--cyan);
-            font-family: 'Cinzel', serif;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            letter-spacing: 3px;
+            font-weight: 900;
         }
-        .phase-card.conflict .phase-date { color: var(--red); }
-        .phase-card.golden .phase-date { color: var(--gold); }
 
         .phase-title {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-size: 4rem;
+            margin-top: 10px;
+            letter-spacing: -1px;
         }
 
-        .phase-desc {
-            font-size: 1.2rem;
-            color: #aaa;
-            line-height: 1.6;
-            max-width: 80%;
+        .phase-body {
+            font-size: 1.4rem;
+            color: #ccc;
+            max-width: 800px;
+            margin: 40px 0;
         }
 
-        .character-flow {
+        .phase-tags {
             display: flex;
-            gap: 20px;
-            margin-top: 30px;
+            gap: 15px;
             flex-wrap: wrap;
         }
 
-        .char-node {
+        .tag {
             background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 10px 20px;
-            border-radius: 30px;
+            padding: 8px 20px;
+            border-radius: 50px;
             font-size: 0.9rem;
             font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+            border: 1px solid var(--border);
         }
 
-        .char-node.active { border-color: var(--cyan); color: #fff; box-shadow: 0 0 15px rgba(0, 243, 255, 0.2); }
-        .char-node.departed { opacity: 0.5; border-style: dashed; }
-        .char-node.banned { border-color: var(--red); color: var(--red); text-decoration: line-through; }
+        .war-phase { border-left-color: var(--red); }
+        .war-phase .phase-date { color: var(--red); }
 
-        .event-box {
-            background: rgba(0,0,0,0.4);
-            padding: 20px;
-            border-left: 3px solid var(--cyan);
-            margin-top: 15px;
-            border-radius: 0 10px 10px 0;
-        }
-        .phase-card.conflict .event-box { border-left-color: var(--red); }
-
-        /* --- 3. FINALE ROSTER --- */
-        #finale-roster {
-            min-height: 100vh;
-            padding: 100px 5vw;
+        /* --- 3. THE ROSTER (Wall of Legends) --- */
+        .roster-section {
+            padding: 150px 10vw;
             background: #000;
             position: relative;
             z-index: 10;
-        }
-
-        .roster-header {
-            text-align: center;
-            margin-bottom: 80px;
-        }
-
-        .roster-header h2 {
-            font-size: 4rem;
-            color: var(--gold);
-            text-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
         }
 
         .roster-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 50px;
+            gap: 40px;
+            margin-top: 80px;
         }
 
-        .roster-group h3 {
-            border-bottom: 1px solid #333;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-            color: var(--cyan);
+        .roster-card {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            padding: 40px;
+            border-radius: 20px;
+            transition: all 0.4s;
         }
 
-        .roster-group.banned h3 { color: var(--red); }
-        .roster-group.departed h3 { color: #666; }
+        .roster-card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-10px);
+            background: #0f0f15;
+        }
 
-        .roster-list {
+        .roster-title {
+            font-family: 'Cinzel';
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 25px;
+            display: block;
+            text-align: center;
+        }
+
+        .member-list {
+            list-style: none;
+            color: #888;
+        }
+
+        .member-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid #151515;
             display: flex;
-            flex-direction: column;
-            gap: 10px;
+            justify-content: space-between;
         }
 
-        .roster-item {
-            padding: 15px 20px;
-            background: #111;
-            border-radius: 8px;
-            transition: transform 0.3s, background 0.3s;
-            cursor: default;
+        .member-list li span { color: #fff; font-weight: 600; }
+
+        .banished-list li span { color: var(--red); text-decoration: line-through; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.8; }
         }
 
-        .roster-item:hover {
-            transform: translateX(10px);
-            background: #1a1a1a;
-            border-left: 3px solid var(--cyan);
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            .phase-title { font-size: 2.5rem; }
+            .phase-body { font-size: 1.1rem; }
+            .phase-card { width: 90vw; padding: 30px; }
         }
-
-        .roster-group.banned .roster-item { border-left: 3px solid var(--red); text-decoration: line-through; color: #888; }
-        .roster-group.departed .roster-item { opacity: 0.6; }
-
     </style>
 </head>
 <body>
 
-    <section id="intro-sequence">
-        <div class="star-wars-fade"></div>
-        <div class="crawl-container">
-            <div class="crawl-text">
-                <h1>WPL CHRONICLES</h1>
-                <p>It is a period of great shifting in Waterview. From the tribal beginnings of Hide and Seek, to the dark days of rock-throwing warfare, and the great silence of the Quarantine...</p>
-                <p>Legends have fallen. New blood has risen. The Unification is complete, but the peace is fragile. The departure of Kickgyan echoes through the realm.</p>
-                <p>The history of the Waterview Premier League is recorded below. A ten-year journey of friendship, betrayal, and football.</p>
+    <section class="intro-container">
+        <div class="crawl-wrapper">
+            <div class="crawl-content">
+                <h1>WPL LORE</h1>
+                <p>It began with a scooter party. A tribal era of Hide and Seek and Apocalypse that birthed a ten-year legacy.</p>
+                <p>We weathered the Waterview War. We survived the Dark Ages of the pandemic. Through blood, rock-throwing, and the eventual rise of Football, the Unification was achieved.</p>
+                <p>But peace is a fragile thing. This is the history of the Waterview Premier League.</p>
             </div>
         </div>
-        <div class="scroll-indicator">SCROLL TO ENTER</div>
+        <div class="skip-hint">SCROLL TO WITNESS</div>
     </section>
 
-    <section id="timeline-trigger">
-        <div id="sticky-viewport">
-            <div id="horizontal-track">
+    <section class="timeline-section" id="timelineTrigger">
+        <div class="sticky-wrapper">
+            <div class="horizontal-track" id="track">
                 
                 <div class="phase-card">
-                    <div>
-                        <div class="phase-date">February 2017</div>
-                        <h2 class="phase-title">The Genesis</h2>
-                        <p class="phase-desc">The beginning. First friendships forged in chaos. The tribe emerges through raw, unstructured survival games.</p>
-                        
-                        <div class="character-flow">
-                            <span class="char-node active">Arjun</span>
-                            <span class="char-node active">Adhavan</span>
-                        </div>
+                    <div class="phase-header">
+                        <div class="phase-date">FEB 2017 - DEC 2017</div>
+                        <h2 class="phase-title">The Scooter Party</h2>
                     </div>
-                    <div class="event-box">
-                        <strong>Tribal Period Begins:</strong> Hide and Seek, Tag, Apocalypse. The foundation of the WPL legend.
+                    <p class="phase-body">The Tribal Period. No formal rules, just raw games of Hide and Seek and Apocalypse. Arjun or Adhavan—the first friends who started a decade of lore.</p>
+                    <div class="phase-tags">
+                        <span class="tag">Unification Phase I</span>
+                        <span class="tag">The Tribe</span>
                     </div>
                 </div>
 
                 <div class="phase-card">
-                    <div>
-                        <div class="phase-date">Jan 2018 - Feb 2019</div>
-                        <h2 class="phase-title">The Architects</h2>
-                        <p class="phase-desc">The core team crystallizes. Legends arrive and the infrastructure of games drastically expands.</p>
-                        
-                        <div class="character-flow">
-                            <span class="char-node active">+ Kaihaan</span>
-                            <span class="char-node active">+ Kian</span>
-                            <span class="char-node active">+ Vihaan</span>
-                        </div>
+                    <div class="phase-header">
+                        <div class="phase-date">JAN 2018 - FEB 2019</div>
+                        <h2 class="phase-title">Infrastructure</h2>
                     </div>
-                    <div class="event-box">
-                        <strong>Expanded Arsenal:</strong> Virus, Ice and Water, Floor is Lava, Cops and Robbers enter the fray.
+                    <p class="phase-body">Kaihaan Jolly, Kian Nizami, and Vihaan More join the ranks. The games evolve: Virus, Floor is Lava, and Cops & Robbers define this expanding world.</p>
+                    <div class="phase-tags">
+                        <span class="tag">Core Members Joined</span>
+                        <span class="tag">Growth</span>
                     </div>
                 </div>
 
-                <div class="phase-card conflict">
-                    <div>
-                        <div class="phase-date">Feb 2019 - July 2019</div>
+                <div class="phase-card war-phase">
+                    <div class="phase-header">
+                        <div class="phase-date">FEB 2019 - JULY 2019</div>
                         <h2 class="phase-title">The Waterview War</h2>
-                        <p class="phase-desc">Paradise fractured. A conflict between Aakash and Chester tears the group in two, plunging the realm into darkness.</p>
-                        
-                        <div class="character-flow">
-                            <span class="char-node active">Aakash</span>
-                            <span class="char-node active">Chester</span>
-                            <span class="char-node">Xiao An</span>
-                            <span class="char-node">Yash</span>
-                            <span class="char-node">Vansh</span>
-                        </div>
                     </div>
-                    <div class="event-box">
-                        <strong>Escalation:</strong> Cockfighting, rock throwing, sticks as weapons. Peace is eventually brokered by Xiao An and Aakash.
-                    </div>
-                </div>
-
-                <div class="phase-card golden">
-                    <div>
-                        <div class="phase-date">June 2019 - March 2020</div>
-                        <h2 class="phase-title">Restoration & Calm</h2>
-                        <p class="phase-desc">The tribe reunites. Wounds heal. New games are born. The Chintangla arrives, bringing a brief, golden peace.</p>
-                        
-                        <div class="character-flow">
-                            <span class="char-node active">+ Agastya</span>
-                            <span class="char-node active">+ Samarth</span>
-                        </div>
-                    </div>
-                    <div class="event-box">
-                        <strong>Experimental Era:</strong> Bomb Tag, Grounders, Skyers, Marco Polo, YYON, Time Travel.
-                    </div>
-                </div>
-
-                <div class="phase-card conflict">
-                    <div>
-                        <div class="phase-date">April 2020 - June 2022</div>
-                        <h2 class="phase-title">The Dark Ages</h2>
-                        <p class="phase-desc">COVID. Departures. Loss. Interaction prohibited. The D Gang rises and falls. Only the true OGs survived this era.</p>
-                        
-                        <div class="character-flow">
-                            <span class="char-node departed">- Aakash</span>
-                            <span class="char-node departed">- Chester</span>
-                            <span class="char-node departed">- Xiao An</span>
-                            <span class="char-node departed">- Aarnav</span>
-                        </div>
-                    </div>
-                    <div class="event-box">
-                        <strong>The Great Exodus:</strong> Legends depart. VAV forms. The Cold War of lockdown changes Waterview forever.
+                    <p class="phase-body">Racial conflict sparks a schism. The group splits. A time of cockfighting, rock-throwing, and sticks used as weapons. Only an overseer's intervention brought peace.</p>
+                    <div class="phase-tags">
+                        <span class="tag">The Schism</span>
+                        <span class="tag">Conflict Era</span>
                     </div>
                 </div>
 
                 <div class="phase-card">
-                    <div>
-                        <div class="phase-date">June 2022 - Dec 2023</div>
-                        <h2 class="phase-title">The WPL Era</h2>
-                        <p class="phase-desc">The term "WPL" is officially coined. The hierarchy of Chintas forms, and Football becomes the ultimate unifier.</p>
-                        
-                        <div class="character-flow">
-                            <span class="char-node active">+ Vidyut</span>
-                            <span class="char-node active">+ Vigyaan</span>
-                            <span class="char-node active">+ Adam</span>
-                        </div>
+                    <div class="phase-header">
+                        <div class="phase-date">APRIL 2020 - JUNE 2022</div>
+                        <h2 class="phase-title">The Dark Ages</h2>
                     </div>
-                    <div class="event-box">
-                        <strong>Football Reigns:</strong> Structured sports replace tribal games. Dhyanam famously refuses to join.
+                    <p class="phase-body">Interaction prohibited by the world. COVID forces isolation. Legends depart. Those who survived this period are considered the true OGs of Waterview.</p>
+                    <div class="phase-tags">
+                        <span class="tag">Isolation</span>
+                        <span class="tag">The Filter</span>
                     </div>
                 </div>
 
-                <div class="phase-card golden">
-                    <div>
-                        <div class="phase-date">Jan 2024 - Present</div>
-                        <h2 class="phase-title">The Modern Era</h2>
-                        <p class="phase-desc">Dhyanam finally yields, completing the circle. Yet, peace is disrupted by an unprecedented banishment.</p>
-                        
-                        <div class="character-flow">
-                            <span class="char-node active">Dhyanam (Joined)</span>
-                            <span class="char-node active">+ Vedant</span>
-                            <span class="char-node banned">Kickgyan (Banished)</span>
-                        </div>
+                <div class="phase-card">
+                    <div class="phase-header">
+                        <div class="phase-date">JUNE 2022 - PRESENT</div>
+                        <h2 class="phase-title">The WPL Era</h2>
                     </div>
-                    <div class="event-box">
-                        <strong>The Fall of Kickgyan:</strong> Following a major argument with Vihaan, Kickgyan is permanently removed, marking the shortest tenure in history.
+                    <p class="phase-body">The term WPL is coined. Football becomes the primary language. Dhyanam finally joins after years of stubbornness. A different kind of peace reigns.</p>
+                    <div class="phase-tags">
+                        <span class="tag">WPL Formed</span>
+                        <span class="tag">Football Era</span>
                     </div>
                 </div>
 
@@ -433,92 +335,60 @@
         </div>
     </section>
 
-    <section id="finale-roster">
-        <div class="roster-header">
-            <h2>THE FINAL REGISTRY</h2>
-            <p class="cinematic-text" style="color: #aaa; letter-spacing: 5px;">Ten Years. Countless Legends.</p>
-        </div>
-
+    <section class="roster-section">
+        <h2 style="font-family:'Cinzel'; font-size: 3rem; text-align:center; color:var(--gold);">THE ARCHIVES</h2>
         <div class="roster-grid">
-            <div class="roster-group active">
-                <h3>Current WPL Roster</h3>
-                <div class="roster-list">
-                    <div class="roster-item">Kaihaan</div>
-                    <div class="roster-item">Kian</div>
-                    <div class="roster-item">Dhyanam</div>
-                    <div class="roster-item">Vedant</div>
-                    <div class="roster-item">Vihaan</div>
-                    <div class="roster-item">Vidyut</div>
-                    <div class="roster-item">Vigyaan</div>
-                </div>
+            <div class="roster-card">
+                <span class="roster-title">Active Roster</span>
+                <ul class="member-list">
+                    <li>Kaihaan <span>VETERAN</span></li>
+                    <li>Kian <span>VETERAN</span></li>
+                    <li>Vihaan <span>VETERAN</span></li>
+                    <li>Dhyanam <span>NEW ERA</span></li>
+                    <li>Vidyut <span>NEW ERA</span></li>
+                    <li>Nam <span>F1 EXPERT</span></li>
+                </ul>
             </div>
-
-            <div class="roster-group departed">
-                <h3>The Departed Legends</h3>
-                <div class="roster-list">
-                    <div class="roster-item">Aakash (Commander)</div>
-                    <div class="roster-item">Chester & Xiao An</div>
-                    <div class="roster-item">Sarang, Damian, Derek</div>
-                    <div class="roster-item">Aarnav & Agastya</div>
-                    <div class="roster-item">Adam, Yash, Vansh</div>
-                    <div class="roster-item">Arjun & Adhavan</div>
-                </div>
+            <div class="roster-card">
+                <span class="roster-title">The Legends</span>
+                <ul class="member-list">
+                    <li>Aakash <span>COMMANDER</span></li>
+                    <li>Sarang <span>OG</span></li>
+                    <li>Chester <span>WARLORD</span></li>
+                    <li>Xiao An <span>OVERSEER</span></li>
+                    <li>Aarnav <span>DARK AGE</span></li>
+                </ul>
             </div>
-
-            <div class="roster-group banned">
-                <h3>The Banished</h3>
-                <div class="roster-list">
-                    <div class="roster-item">Kickgyan</div>
-                </div>
+            <div class="roster-card">
+                <span class="roster-title">Status: Banished</span>
+                <ul class="member-list banished-list">
+                    <li>Kickgyan <span>EXILED</span></li>
+                </ul>
             </div>
         </div>
     </section>
 
     <script>
-        // HORIZONTAL SCROLL LOGIC
-        const timelineTrigger = document.getElementById('timeline-trigger');
-        const horizontalTrack = document.getElementById('horizontal-track');
-        
+        const track = document.getElementById('track');
+        const trigger = document.getElementById('timelineTrigger');
+
         window.addEventListener('scroll', () => {
-            // Get coordinates of the trigger container
-            const triggerRect = timelineTrigger.getBoundingClientRect();
+            const triggerRect = trigger.getBoundingClientRect();
             const viewportHeight = window.innerHeight;
             
-            // Calculate how far we've scrolled inside the trigger section
-            // triggerRect.top starts at 0 and goes negative as we scroll down
-            const scrollDistance = Math.max(0, -triggerRect.top);
-            
-            // Calculate total scrollable distance within the trigger
-            const maxScroll = timelineTrigger.offsetHeight - viewportHeight;
-            
-            // Calculate percentage scrolled (0 to 1)
-            let scrollPercentage = scrollDistance / maxScroll;
-            scrollPercentage = Math.min(Math.max(scrollPercentage, 0), 1);
-            
-            // Calculate how far to move the track horizontally
-            // Track width minus viewport width is the max horizontal move
-            const trackWidth = horizontalTrack.scrollWidth;
-            const maxTranslate = trackWidth - window.innerWidth;
-            
-            // Apply horizontal transform
-            const currentTranslate = maxTranslate * scrollPercentage;
-            horizontalTrack.style.transform = `translateX(-${currentTranslate}px)`;
-
-            // Opacity effects for cards based on position
-            const cards = document.querySelectorAll('.phase-card');
-            cards.forEach(card => {
-                const cardRect = card.getBoundingClientRect();
-                const cardCenter = cardRect.left + (cardRect.width / 2);
-                const screenCenter = window.innerWidth / 2;
+            // Calculate how far we are into the 700vh section
+            // We only move the cards while the section is "Sticky"
+            if (triggerRect.top <= 0 && triggerRect.bottom >= viewportHeight) {
+                const totalScrollableHeight = trigger.offsetHeight - viewportHeight;
+                const currentScrollProgress = Math.abs(triggerRect.top) / totalScrollableHeight;
                 
-                // Dim cards that are far from the center of the screen
-                const distance = Math.abs(screenCenter - cardCenter);
-                const opacity = Math.max(0.2, 1 - (distance / window.innerWidth));
-                const scale = Math.max(0.8, 1 - (distance / window.innerWidth * 0.3));
+                // Calculate horizontal move
+                // Track length minus screen width
+                const maxHorizontal = track.scrollWidth - window.innerWidth;
+                const translateX = currentScrollProgress * maxHorizontal;
                 
-                card.style.opacity = opacity;
-                card.style.transform = `scale(${scale})`;
-            });
+                track.style.transform = `translateX(-${translateX}px)`;
+            }
         });
     </script>
 </body>

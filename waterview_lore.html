@@ -2,198 +2,473 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>WPL Lore</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WPL Cinematic Universe</title>
     <style>
-        @page {
-            size: A4;
-            margin: 0;
-            background-color: #1a1a2e;
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;400;700&display=swap');
+
+        :root {
+            --bg-color: #050505;
+            --text-main: #e0e0e0;
+            --gold: #d4af37;
+            --red: #8a0303;
+            --blue: #0f4c75;
         }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #1a1a2e;
-            color: #e0e0e0;
+
+        body, html {
             margin: 0;
-            padding: 40px 20px;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Montserrat', sans-serif;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
-        .header {
+
+        h1, h2, h3, .cinematic-text {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
+        }
+
+        /* Hero Section */
+        #hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            background: radial-gradient(circle at center, #1a1a2e 0%, #000000 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .starwars-crawl {
+            perspective: 400px;
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .crawl-text {
+            color: var(--gold);
+            font-size: 1.5rem;
+            line-height: 1.8;
+            text-align: justify;
+            width: 60%;
+            transform: rotateX(25deg);
+            animation: crawl 20s linear forwards;
+            opacity: 0;
+        }
+
+        @keyframes crawl {
+            0% { transform: rotateX(25deg) translateY(100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: rotateX(25deg) translateY(-100%); opacity: 0; }
+        }
+
+        #hero h1 {
+            font-size: 5rem;
+            color: var(--gold);
+            margin: 0;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.5);
+            animation: fadeInScale 3s ease-in-out;
+        }
+
+        #hero p {
+            font-size: 1.5rem;
+            letter-spacing: 5px;
+            animation: fadeIn 4s ease-in-out;
+        }
+
+        /* Section Formatting */
+        section {
+            padding: 100px 10vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3rem;
+            color: var(--gold);
             margin-bottom: 50px;
-            border-bottom: 2px solid #30475e;
+            border-bottom: 2px solid #333;
             padding-bottom: 20px;
         }
-        .header h1 {
-            color: #00d2ff;
-            font-size: 28pt;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 4px;
+
+        /* Characters Grid */
+        .character-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
         }
-        .header p {
-            color: #94a3b8;
-            font-size: 12pt;
+
+        .character-card {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            opacity: 0;
+            transform: translateY(50px);
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
+
+        .character-card.in-view {
+            animation: fadeUp 1s forwards;
+        }
+
+        .character-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--gold);
+            border-color: var(--gold);
+        }
+
+        .char-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .char-name {
+            font-size: 1.5rem;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+        }
+
+        .char-role {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        /* Timeline Styles */
+        .timeline {
             position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
         }
-        /* The central line */
-        .container::after {
+
+        .timeline::after {
             content: '';
             position: absolute;
             width: 4px;
-            background-color: #30475e;
+            background-color: #333;
             top: 0;
             bottom: 0;
             left: 50%;
             margin-left: -2px;
         }
-        .timeline-item {
-            padding: 10px 40px;
+
+        .tl-item {
+            padding: 20px 40px;
             position: relative;
-            background-color: inherit;
             width: 50%;
             box-sizing: border-box;
-            margin-bottom: 20px;
+            opacity: 0;
         }
-        /* The circles on the line */
-        .timeline-item::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            right: -10px;
-            background-color: #1a1a2e;
-            border: 4px solid #00d2ff;
-            top: 15px;
-            border-radius: 50%;
-            z-index: 1;
-        }
-        .left { left: 0; text-align: right; }
-        .right { left: 50%; text-align: left; }
-        .right::after { left: -10px; }
 
-        .content {
+        .tl-item.left { left: 0; }
+        .tl-item.right { left: 50%; }
+
+        .tl-item.in-view.left { animation: slideInLeft 1s forwards; }
+        .tl-item.in-view.right { animation: slideInRight 1s forwards; }
+
+        .tl-content {
             padding: 20px;
-            background-color: #16213e;
-            position: relative;
+            background: #111;
+            border: 1px solid #333;
             border-radius: 8px;
-            border-top: 4px solid #00d2ff;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            position: relative;
+            transition: all 0.3s;
         }
-        .period {
-            font-weight: bold;
-            color: #00d2ff;
-            display: block;
-            margin-bottom: 5px;
-            font-size: 10pt;
+
+        .tl-content:hover {
+            border-color: var(--blue);
+            box-shadow: 0 0 20px rgba(15, 76, 117, 0.5);
         }
-        .title {
-            font-size: 14pt;
-            margin: 5px 0;
-            color: #ffffff;
+
+        .tl-date { color: var(--gold); font-weight: bold; font-family: 'Cinzel', serif; }
+
+        /* Banishment Scene */
+        #banishment {
+            background: radial-gradient(circle at center, #2a0000 0%, #000 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .subtitle {
-            font-style: italic;
-            color: #94a3b8;
-            margin-bottom: 10px;
-            display: block;
-            font-size: 11pt;
+
+        .banish-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            z-index: 2;
+            position: relative;
         }
-        .description {
-            font-size: 10pt;
-            line-height: 1.4;
+
+        .kickgyan-target {
+            background: #1a1a1a;
+            border: 2px solid #555;
+            padding: 40px;
+            border-radius: 15px;
+            width: 300px;
+            transition: all 2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .kickgyan-target h3 {
+            color: #fff;
+            margin: 10px 0;
+        }
+
+        .banish-btn {
+            background: var(--red);
+            color: #fff;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.5rem;
+            font-family: 'Cinzel', serif;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 0 15px var(--red);
+        }
+
+        .banish-btn:hover {
+            background: #ff0000;
+            box-shadow: 0 0 30px #ff0000;
+            transform: scale(1.1);
+        }
+
+        /* The Animation Class added via JS */
+        .is-banished {
+            animation: yeetIntoOblivion 3s forwards;
+        }
+
+        .screen-shake {
+            animation: shake 0.5s infinite;
+        }
+
+        /* Keyframes */
+        @keyframes fadeInScale {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeIn {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        @keyframes fadeUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes slideInLeft {
+            0% { opacity: 0; transform: translateX(-100px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            0% { opacity: 0; transform: translateX(100px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes yeetIntoOblivion {
+            0% { transform: scale(1) rotate(0deg); opacity: 1; filter: drop-shadow(0 0 10px red); }
+            20% { transform: scale(1.2) rotate(-10deg); filter: drop-shadow(0 0 30px red); }
+            100% { transform: translate(150vw, -150vh) scale(0.1) rotate(1080deg); opacity: 0; }
+        }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(3px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(3px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(1px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+
+        /* Responsive timeline */
+        @media screen and (max-width: 768px) {
+            .timeline::after { left: 31px; }
+            .tl-item { width: 100%; padding-left: 70px; padding-right: 25px; }
+            .tl-item.right { left: 0; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>The WPL Chronicles</h1>
-    </div>
-    <div class="container">
 
-        <div class="timeline-item left">
-            <div class="content" style="border-top-color: #e74c3c;">
-                <span class="period" style="color: #e74c3c;">Feb 2017 - Dec 2017</span>
-                <h2 class="title">The Scooter Party Period</h2>
-                <span class="subtitle">The Tribal Era</span>
-                <p class="description">The moment the WPL lore began. A time of early friendships and classic games like Hide and Seek and Apocalypse.</p>
+    <!-- Hero Section -->
+    <section id="hero">
+        <h1>WPL CHRONICLES</h1>
+        <p>THE 10-YEAR LORE</p>
+        
+        <div class="starwars-crawl">
+            <div class="crawl-text">
+                <p>It is a period of great shifting in Waterview. From the tribal beginnings of Hide and Seek, to the dark days of rock-throwing warfare, and the great silence of the Quarantine...</p>
+                <p>Legends have fallen. New blood has risen. The Unification is complete, but the peace is fragile. The departure of Kickgyan echoes through the realm. The future is unwritten.</p>
+                <p>Scroll down to witness the history.</p>
             </div>
         </div>
-    
-        <div class="timeline-item right">
-            <div class="content" style="border-top-color: #f39c12;">
-                <span class="period" style="color: #f39c12;">Jan 2018 - Feb 2019</span>
-                <h2 class="title">Infrastructure Expansion</h2>
-                <span class="subtitle">Unification of Core Members</span>
-                <p class="description">Introduction of Kaihaan, Kian, and Vihaan. New games like Virus and Floor is Lava expanded the Waterview world.</p>
+    </section>
+
+    <!-- Characters Over Time -->
+    <section id="characters">
+        <h2 class="section-title">The Cast of Waterview</h2>
+        
+        <h3 class="cinematic-text" style="color: var(--blue); margin-top: 20px;">The Legends (Departed OGs)</h3>
+        <div class="character-grid">
+            <div class="character-card">
+                <div class="char-icon">👑</div>
+                <div class="char-name">Aakash</div>
+                <div class="char-role">Commander / Overseer</div>
+                <p>Led all factions during the War. Reined in the chaos. A true Waterview Legend.</p>
+            </div>
+            <div class="character-card">
+                <div class="char-icon">⚔️</div>
+                <div class="char-name">Chester & Xiao An</div>
+                <div class="char-role">The Rivals</div>
+                <p>Key figures whose conflict split the original friend group, triggering the War Period.</p>
+            </div>
+            <div class="character-card">
+                <div class="char-icon">🚶</div>
+                <div class="char-name">Aarnav & Agastya</div>
+                <div class="char-role">The Tragic Exiles</div>
+                <p>Their departure marked the emotional climax of the Dark Ages.</p>
             </div>
         </div>
-    
-        <div class="timeline-item left">
-            <div class="content" style="border-top-color: #c0392b;">
-                <span class="period" style="color: #c0392b;">Feb 2019 - July 2019</span>
-                <h2 class="title">The Waterview War</h2>
-                <span class="subtitle">The Great Schism</span>
-                <p class="description">A dark time of conflict, cockfighting, and rock throwing. Peace was eventually brokered by overseers.</p>
+
+        <h3 class="cinematic-text" style="color: var(--gold); margin-top: 60px;">The Survivors & Modern Era</h3>
+        <div class="character-grid">
+            <div class="character-card">
+                <div class="char-icon">🛡️</div>
+                <div class="char-name">Dhyanam</div>
+                <div class="char-role">The Holdout</div>
+                <p>Refused to join for years. His 2024 integration marked the era of "Peace, at last."</p>
+            </div>
+            <div class="character-card">
+                <div class="char-icon">🤝</div>
+                <div class="char-name">Kaihaan, Kian & Vihaan</div>
+                <div class="char-role">The Unifiers</div>
+                <p>Joined in 2018. Increased the "Waterview Infrastructure" and kept the core alive.</p>
+            </div>
+            <div class="character-card">
+                <div class="char-icon">⚽</div>
+                <div class="char-name">Nam</div>
+                <div class="char-role">The Scholar</div>
+                <p>Gained critical F1 and Football knowledge during the modern era.</p>
             </div>
         </div>
-    
-        <div class="timeline-item right">
-            <div class="content" style="border-top-color: #27ae60;">
-                <span class="period" style="color: #27ae60;">June 2019 - Jan 2020</span>
-                <h2 class="title">The Restoration</h2>
-                <span class="subtitle">Post-War Era</span>
-                <p class="description">Reunion of the friend group. Introduction of 'high-ground' games like Skyers and Marco Polo.</p>
+    </section>
+
+    <!-- Cinematic Timeline -->
+    <section id="timeline">
+        <h2 class="section-title">The Eras of Lore</h2>
+        <div class="timeline">
+            <div class="tl-item left">
+                <div class="tl-content">
+                    <div class="tl-date">Feb 2017</div>
+                    <h3>The Scooter Party Period</h3>
+                    <p>The dawn of lore. The Tribal Period consisting of Hide And Seek, Tag, and Apocalypse.</p>
+                </div>
+            </div>
+            <div class="tl-item right">
+                <div class="tl-content">
+                    <div class="tl-date">Jan 2018 - Feb 2019</div>
+                    <h3>Increasing Infrastructure</h3>
+                    <p>The introduction of Virus, Floor is Lava, and Cops and Robbers. A unification of members still present today.</p>
+                </div>
+            </div>
+            <div class="tl-item left">
+                <div class="tl-content">
+                    <div class="tl-date">Feb 2019 - July 2019</div>
+                    <h3>The Waterview War</h3>
+                    <p>The group splits. Cockfighting, rock throwing, and sticks as weapons. Peace achieved only by interference from Aakash and Xiao An.</p>
+                </div>
+            </div>
+            <div class="tl-item right">
+                <div class="tl-content">
+                    <div class="tl-date">April 2020 - June 2022</div>
+                    <h3>The Dark Ages</h3>
+                    <p>Interaction prohibited. Legends depart. The true test of Waterview. Only the real OGs survived.</p>
+                </div>
+            </div>
+            <div class="tl-item left">
+                <div class="tl-content">
+                    <div class="tl-date">June 2022 - Dec 2023</div>
+                    <h3>Cleanup & The WPL</h3>
+                    <p>The actual term WPL is coined. The era of Football begins. Dhyanam refuses to join.</p>
+                </div>
+            </div>
+            <div class="tl-item right">
+                <div class="tl-content">
+                    <div class="tl-date">Jan 2024 - June 2025</div>
+                    <h3>Peace, at last...</h3>
+                    <p>Dhyanam yields. Nam learns football. A fragile, different peace settles over the land.</p>
+                </div>
             </div>
         </div>
-    
-        <div class="timeline-item left">
-            <div class="content" style="border-top-color: #3498db;">
-                <span class="period" style="color: #3498db;">Jan 2020 - March 2020</span>
-                <h2 class="title">Calm Before the Storm</h2>
-                <span class="subtitle">The Chintangla Introduction</span>
-                <p class="description">A brief peace before the world changed. Introduction of YYON and Time Travel games.</p>
+    </section>
+
+    <!-- Banishment Scene -->
+    <section id="banishment">
+        <h2 class="section-title" style="color: var(--red); border-color: var(--red);">The Fall of Kickgyan</h2>
+        <p style="font-size: 1.2rem; margin-bottom: 40px;">June 2025: A major argument with Vihaan echoes through the grounds. Judgment must be passed.</p>
+        
+        <div class="banish-container">
+            <div class="kickgyan-target" id="kickgyanCard">
+                <div style="font-size: 5rem;">🤡</div>
+                <h3>Kickgyan</h3>
+                <p style="color: #aaa;">Status: Active Member</p>
+                <p style="color: #aaa; font-size: 0.8rem;">Tenure: The Shortest in WPL History</p>
             </div>
+
+            <button class="banish-btn" id="banishBtn">Execute Banishment</button>
+            <p id="banishText" style="display:none; color: var(--red); font-size: 2rem; font-family: 'Cinzel', serif; margin-top: 20px;">Kickgyan has been permanently removed from Waterview.</p>
         </div>
-    
-        <div class="timeline-item right">
-            <div class="content" style="border-top-color: #2c3e50;">
-                <span class="period" style="color: #2c3e50;">April 2020 - June 2022</span>
-                <h2 class="title">The Dark Ages</h2>
-                <span class="subtitle">The COVID Survival Era</span>
-                <p class="description">The hardest time for Waterview. Interaction was prohibited, members departed, and only real OGs survived.</p>
-            </div>
-        </div>
-    
-        <div class="timeline-item left">
-            <div class="content" style="border-top-color: #8e44ad;">
-                <span class="period" style="color: #8e44ad;">June 2022 - Dec 2023</span>
-                <h2 class="title">Cleanup</h2>
-                <span class="subtitle">The Birth of the WPL Term</span>
-                <p class="description">The transition into a football-centric culture. New members like Vidyut and Adam joined the ranks.</p>
-            </div>
-        </div>
-    
-        <div class="timeline-item right">
-            <div class="content" style="border-top-color: #16a085;">
-                <span class="period" style="color: #16a085;">Jan 2024 - June 2025</span>
-                <h2 class="title">A Different Peace</h2>
-                <span class="subtitle">The Dhyanam Unification</span>
-                <p class="description">Dhyanam finally joins. Nam gains F1 and football knowledge. The group reaches a new level of stability.</p>
-            </div>
-        </div>
-    
-        <div class="timeline-item left">
-            <div class="content" style="border-top-color: #2980b9;">
-                <span class="period" style="color: #2980b9;">June 2025 - Present</span>
-                <h2 class="title">The Modern Era</h2>
-                <span class="subtitle">The Future Unfolds</span>
-                <p class="description">Kickgyan's departure marks a new chapter. The WPL continues to evolve into the unknown.</p>
-            </div>
-        </div>
-    
-    </div>
-</body>
-</html>
+    </section>
+
+    <script>
+        // Scroll Animation Observer
+        const observerOptions = {
+            threshold: 0.2
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.character-card, .tl-item').forEach((el) => {
+            observer.observe(el);
+        });
+
+        // Banishment Animation Logic
+        const banishBtn = document.getElementById('banishBtn');
+        const kickgyanCard = document.getElementById('kickgyanCard');
+        const banishmentSection = document.getElementById('banishment');
+        const banishText = document.getElementById('banishText');
+
+        banishBtn.addEventListener('click', () => {
+            // Add screen shake to the whole section
+            banishmentSection.classList.add('screen-shake');
+            
+            // Yeet Kickgyan
+            kickgyanCard.classList.add('is-banished');
+            
+            // Change button text and show dramatic text
+            banishBtn.style.display = 'none';
+            
+            setTimeout(() => {
+                banishmentSection.classList.remove('screen-shake');
+                banishText.style.display = 'block';
+            }, 1000);

@@ -11,8 +11,10 @@
             --gold: #d4af37;
             --cyan: #00f3ff;
             --red: #ff003c;
+            --optic: #d6f25b; /* pickleball optic-green accent (Summer 2026) */
             --glass: rgba(10, 10, 15, 0.8);
             --border: rgba(255, 255, 255, 0.1);
+            --ease: cubic-bezier(0.22, 1, 0.36, 1);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -85,11 +87,11 @@
             animation: pulse 2s infinite;
         }
 
-        /* --- 2. THE STICKY TIMELINE (The Fix) --- */
+        /* --- 2. THE TIMELINE (horizontal scrollytelling) --- */
         .timeline-section {
             position: relative;
-            /* Height dictates scroll duration. 600vh = long duration for cards. */
-            height: 700vh; 
+            /* Height dictates scroll length; scales with the 6 eras. */
+            height: 760vh;
             background: var(--bg);
         }
 
@@ -97,94 +99,223 @@
             position: sticky;
             top: 0;
             height: 100vh;
-            width: 100vw;
+            width: 100%;
             display: flex;
             align-items: center;
+            padding-bottom: 130px; /* reserves room for the progress rail */
             overflow: hidden;
         }
 
         .horizontal-track {
             display: flex;
-            padding-left: 15vw;
-            padding-right: 50vw;
+            align-items: center;
+            padding-left: max(8vw, 32px);
+            padding-right: 60vw;
             will-change: transform;
-            transition: transform 0.1s ease-out;
         }
 
-        .phase-card {
-            flex-shrink: 0;
-            width: 75vw;
-            max-width: 1100px;
-            height: 70vh;
-            margin-right: 10vw;
-            background: var(--glass);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+        /* --- Era panel --- */
+        .era {
+            --accent: var(--cyan);
             position: relative;
+            flex-shrink: 0;
+            width: min(78vw, 720px);
+            max-width: calc(100vw - 40px); /* never wider than the screen */
+            margin-right: clamp(36px, 6vw, 104px);
+            padding: clamp(34px, 4.5vw, 62px);
+            background: var(--glass);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 26px;
+            overflow: hidden;
+        }
+        /* Focus effect only when JS drives it; no-JS shows every era in full */
+        .js .era {
+            opacity: 0.3;
+            transform: scale(0.93);
+            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease),
+                        border-color 0.6s var(--ease), box-shadow 0.6s var(--ease);
+        }
+        .js .era.is-active {
+            opacity: 1;
+            transform: scale(1);
+            border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+            box-shadow: 0 44px 90px rgba(0, 0, 0, 0.6);
         }
 
-        .phase-card::after {
-            content: '';
+        /* Big ghosted era numeral — honest sequence marker */
+        .era__index {
             position: absolute;
-            inset: 0;
-            border-radius: 30px;
-            padding: 2px;
-            background: linear-gradient(135deg, var(--border), transparent, var(--border));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-        }
-
-        .phase-header {
-            font-family: 'Cinzel';
-            border-left: 4px solid var(--cyan);
-            padding-left: 25px;
-        }
-
-        .phase-date {
-            color: var(--cyan);
-            font-size: 1.2rem;
-            letter-spacing: 3px;
+            top: -0.18em;
+            right: 0.04em;
+            font-family: 'Cinzel', serif;
             font-weight: 900;
+            font-size: clamp(130px, 19vw, 240px);
+            line-height: 1;
+            color: var(--accent);
+            opacity: 0.09;
+            pointer-events: none;
+            user-select: none;
         }
 
-        .phase-title {
-            font-size: 4rem;
-            margin-top: 10px;
-            letter-spacing: -1px;
+        .era__kicker {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+        .era__kicker::before {
+            content: '';
+            width: 30px;
+            height: 2px;
+            background: var(--accent);
         }
 
-        .phase-body {
-            font-size: 1.4rem;
-            color: #ccc;
-            max-width: 800px;
-            margin: 40px 0;
+        .era__title {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: clamp(2.1rem, 5vw, 3.8rem);
+            line-height: 1.04;
+            letter-spacing: -0.5px;
+            margin: 22px 0 0;
+            max-width: 15ch;
         }
 
-        .phase-tags {
+        .era__rule {
+            width: 54px;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--accent);
+            margin: 24px 0;
+        }
+
+        .era__body {
+            font-size: clamp(1.02rem, 1.3vw, 1.25rem);
+            line-height: 1.66;
+            color: #c2c2cd;
+            max-width: 50ch;
+            margin: 0 0 30px;
+        }
+
+        .era__tags {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
-        .tag {
-            background: rgba(255,255,255,0.05);
-            padding: 8px 20px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border: 1px solid var(--border);
+        .chip {
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+            padding: 8px 16px;
+            border-radius: 100px;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            color: #d6d6de;
+            transition: border-color 0.4s var(--ease), color 0.4s var(--ease);
+        }
+        .era.is-active .chip {
+            border-color: color-mix(in srgb, var(--accent) 38%, transparent);
         }
 
-        .war-phase { border-left-color: var(--red); }
-        .war-phase .phase-date { color: var(--red); }
+        /* --- Progress rail (fixed within the sticky stage) --- */
+        .tl-nav {
+            position: absolute;
+            left: 50%;
+            bottom: clamp(30px, 5vh, 58px);
+            transform: translateX(-50%);
+            width: min(88vw, 860px);
+            z-index: 5;
+        }
+
+        .tl-status {
+            display: flex;
+            align-items: baseline;
+            gap: 14px;
+            margin-bottom: 20px;
+        }
+        .tl-status__count {
+            font-family: 'Cinzel', serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            letter-spacing: 0.12em;
+            color: #fff;
+        }
+        .tl-status__count b {
+            color: var(--accent-active, var(--cyan));
+            transition: color 0.35s var(--ease);
+        }
+        .tl-status__name {
+            font-size: 0.9rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #9a9aa5;
+        }
+
+        .rail {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+        }
+        .rail::before {
+            content: '';
+            position: absolute;
+            top: 6px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.12);
+        }
+        .rail__fill {
+            position: absolute;
+            top: 6px;
+            left: 0;
+            height: 2px;
+            width: 0;
+            background: var(--accent-active, var(--cyan));
+            transition: width 0.25s var(--ease), background 0.35s var(--ease);
+        }
+
+        .node {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+            padding: 0;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: inherit;
+        }
+        .node__dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--bg);
+            border: 2px solid rgba(255, 255, 255, 0.32);
+            transition: transform 0.35s var(--ease), border-color 0.35s var(--ease),
+                        background 0.35s var(--ease), box-shadow 0.35s var(--ease);
+        }
+        .node__year {
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            color: #6e6e78;
+            transition: color 0.35s var(--ease);
+        }
+        .node.is-done .node__dot { border-color: var(--accent-active, var(--cyan)); }
+        .node.is-active .node__dot {
+            background: var(--accent-active, var(--cyan));
+            border-color: var(--accent-active, var(--cyan));
+            transform: scale(1.45);
+            box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent-active, var(--cyan)) 18%, transparent);
+        }
+        .node.is-active .node__year { color: #fff; }
+        .node:focus-visible .node__dot { outline: 2px solid #fff; outline-offset: 4px; }
 
         /* --- 3. THE ROSTER (Wall of Legends) --- */
         .roster-section {
@@ -245,11 +376,50 @@
             50% { opacity: 0.8; }
         }
 
+        /* --- 4. NAME HIGHLIGHT (within era bodies) --- */
+        /* Each player name carries a court-line in its era's accent;
+           hover/focus fills it in. */
+        .player {
+            color: #fff;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: inset 0 -2px 0 var(--accent);
+            transition: background 0.25s var(--ease), color 0.25s var(--ease), box-shadow 0.25s var(--ease);
+        }
+        .player:hover,
+        .player:focus-visible {
+            background: var(--accent);
+            color: var(--bg);
+            box-shadow: none;
+            outline: none;
+        }
+
+        /* Scroll-reveal for roster cards (progressive enhancement:
+           only hidden when JS is active, so no-JS still shows everything) */
+        .js .roster-card {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease, border-color 0.4s, background 0.4s;
+        }
+        .js .roster-card.in-view { opacity: 1; transform: none; }
+
         /* Responsive Fixes */
         @media (max-width: 768px) {
-            .phase-title { font-size: 2.5rem; }
-            .phase-body { font-size: 1.1rem; }
-            .phase-card { width: 90vw; padding: 30px; }
+            .era { width: min(86vw, 560px); border-radius: 20px; }
+            .era__index { font-size: clamp(110px, 30vw, 170px); }
+            .sticky-wrapper { padding-bottom: 110px; }
+        }
+        @media (max-width: 540px) {
+            .node__year { display: none; }
+            .tl-status { margin-bottom: 16px; }
+        }
+
+        /* Respect reduced-motion: keep content, drop the motion */
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
+            .crawl-content { animation: none; transform: rotateX(0) translateY(0); }
+            .js .roster-card { opacity: 1; transform: none; transition: none; }
+            .js .era { opacity: 1; transform: none; transition: border-color 0.4s, box-shadow 0.4s; }
         }
     </style>
 </head>
@@ -262,6 +432,7 @@
                 <p>It began with a scooter party. A tribal era of Hide and Seek and Apocalypse that birthed a ten-year legacy.</p>
                 <p>We weathered the Waterview War. We survived the Dark Ages of the pandemic. Through blood, rock-throwing, and the eventual rise of Football, the Unification was achieved.</p>
                 <p>But peace is a fragile thing. This is the history of the Waterview Premier League.</p>
+                <p>And now, a new era begins on the basement court. Summer 2026: the Rise of Pickleball.</p>
             </div>
         </div>
         <div class="skip-hint">SCROLL TO WITNESS</div>
@@ -270,68 +441,107 @@
     <section class="timeline-section" id="timelineTrigger">
         <div class="sticky-wrapper">
             <div class="horizontal-track" id="track">
-                
-                <div class="phase-card">
-                    <div class="phase-header">
-                        <div class="phase-date">FEB 2017 - DEC 2017</div>
-                        <h2 class="phase-title">The Scooter Party</h2>
-                    </div>
-                    <p class="phase-body">The Tribal Period. No formal rules, just raw games of Hide and Seek and Apocalypse. Arjun or Adhavan—the first friends who started a decade of lore.</p>
-                    <div class="phase-tags">
-                        <span class="tag">Unification Phase I</span>
-                        <span class="tag">The Tribe</span>
-                    </div>
-                </div>
 
-                <div class="phase-card">
-                    <div class="phase-header">
-                        <div class="phase-date">JAN 2018 - FEB 2019</div>
-                        <h2 class="phase-title">Infrastructure</h2>
+                <article class="era" style="--accent: #d4af37" data-name="The Scooter Party">
+                    <span class="era__index" aria-hidden="true">01</span>
+                    <p class="era__kicker">Era 01 · 2017</p>
+                    <h2 class="era__title">The Scooter Party</h2>
+                    <div class="era__rule" aria-hidden="true"></div>
+                    <p class="era__body">The tribal period. No formal rules — just raw games of Hide and Seek and Apocalypse. Arjun and Adhavan, the first friends who started a decade of lore.</p>
+                    <div class="era__tags">
+                        <span class="chip">Unification Phase I</span>
+                        <span class="chip">The Tribe</span>
                     </div>
-                    <p class="phase-body">Kaihaan Jolly, Kian Nizami, and Vihaan More join the ranks. The games evolve: Virus, Floor is Lava, and Cops & Robbers define this expanding world.</p>
-                    <div class="phase-tags">
-                        <span class="tag">Core Members Joined</span>
-                        <span class="tag">Growth</span>
-                    </div>
-                </div>
+                </article>
 
-                <div class="phase-card war-phase">
-                    <div class="phase-header">
-                        <div class="phase-date">FEB 2019 - JULY 2019</div>
-                        <h2 class="phase-title">The Waterview War</h2>
+                <article class="era" style="--accent: #00f3ff" data-name="Infrastructure">
+                    <span class="era__index" aria-hidden="true">02</span>
+                    <p class="era__kicker">Era 02 · 2018–2019</p>
+                    <h2 class="era__title">Infrastructure</h2>
+                    <div class="era__rule" aria-hidden="true"></div>
+                    <p class="era__body">Kaihaan Jolly, Kian Nizami, and Vihaan More join the ranks. The games evolve: Virus, Floor is Lava, and Cops &amp; Robbers define this expanding world.</p>
+                    <div class="era__tags">
+                        <span class="chip">Core Members Joined</span>
+                        <span class="chip">Growth</span>
                     </div>
-                    <p class="phase-body">Racial conflict sparks a schism. The group splits. A time of cockfighting, rock-throwing, and sticks used as weapons. Only an overseer's intervention brought peace.</p>
-                    <div class="phase-tags">
-                        <span class="tag">The Schism</span>
-                        <span class="tag">Conflict Era</span>
-                    </div>
-                </div>
+                </article>
 
-                <div class="phase-card">
-                    <div class="phase-header">
-                        <div class="phase-date">APRIL 2020 - JUNE 2022</div>
-                        <h2 class="phase-title">The Dark Ages</h2>
+                <article class="era" style="--accent: #ff003c" data-name="The Waterview War">
+                    <span class="era__index" aria-hidden="true">03</span>
+                    <p class="era__kicker">Era 03 · 2019</p>
+                    <h2 class="era__title">The Waterview War</h2>
+                    <div class="era__rule" aria-hidden="true"></div>
+                    <p class="era__body">A schism splits the group. A time of conflict, rock-throwing, and sticks turned to weapons. Only an overseer's intervention finally brought the peace.</p>
+                    <div class="era__tags">
+                        <span class="chip">The Schism</span>
+                        <span class="chip">Conflict Era</span>
                     </div>
-                    <p class="phase-body">Interaction prohibited by the world. COVID forces isolation. Legends depart. Those who survived this period are considered the true OGs of Waterview.</p>
-                    <div class="phase-tags">
-                        <span class="tag">Isolation</span>
-                        <span class="tag">The Filter</span>
-                    </div>
-                </div>
+                </article>
 
-                <div class="phase-card">
-                    <div class="phase-header">
-                        <div class="phase-date">JUNE 2022 - PRESENT</div>
-                        <h2 class="phase-title">The WPL Era</h2>
+                <article class="era" style="--accent: #8a93a6" data-name="The Dark Ages">
+                    <span class="era__index" aria-hidden="true">04</span>
+                    <p class="era__kicker">Era 04 · 2020–2022</p>
+                    <h2 class="era__title">The Dark Ages</h2>
+                    <div class="era__rule" aria-hidden="true"></div>
+                    <p class="era__body">Interaction prohibited by the world. COVID forces isolation and legends depart. Those who survived this stretch are the true OGs of Waterview.</p>
+                    <div class="era__tags">
+                        <span class="chip">Isolation</span>
+                        <span class="chip">The Filter</span>
                     </div>
-                    <p class="phase-body">The term WPL is coined. Football becomes the primary language. Dhyanam finally joins after years of stubbornness. A different kind of peace reigns.</p>
-                    <div class="phase-tags">
-                        <span class="tag">WPL Formed</span>
-                        <span class="tag">Football Era</span>
+                </article>
+
+                <article class="era" style="--accent: #2fd07a" data-name="The WPL Era">
+                    <span class="era__index" aria-hidden="true">05</span>
+                    <p class="era__kicker">Era 05 · 2022–Present</p>
+                    <h2 class="era__title">The WPL Era</h2>
+                    <div class="era__rule" aria-hidden="true"></div>
+                    <p class="era__body">The term WPL is coined. Football becomes the primary language, and Dhyanam finally joins after years of stubbornness. A different kind of peace reigns.</p>
+                    <div class="era__tags">
+                        <span class="chip">WPL Formed</span>
+                        <span class="chip">Football Era</span>
                     </div>
-                </div>
+                </article>
+
+                <article class="era" style="--accent: #d6f25b" data-name="The Rise of Pickleball">
+                    <span class="era__index" aria-hidden="true">06</span>
+                    <p class="era__kicker">Era 06 · 2025–2026</p>
+                    <h2 class="era__title">The Rise of Pickleball</h2>
+                    <div class="era__rule" aria-hidden="true"></div>
+                    <p class="era__body">
+                        Before the craze, <span class="player" tabindex="0">Seth</span> and
+                        <span class="player" tabindex="0">Kian</span> were already playing —
+                        separately, neither knowing the other had a paddle. Then
+                        <span class="player" tabindex="0">Vidhyut</span> and
+                        <span class="player" tabindex="0">Dhyanam</span> rounded a basement corner and
+                        found <span class="player" tabindex="0">Adhavan</span> and
+                        <span class="player" tabindex="0">Dhruv</span> mid-rally — and joined on the spot.
+                        Word spread, <span class="player" tabindex="0">Vihaan</span> caught the bug,
+                        and the official pickleball circle was born.
+                    </p>
+                    <div class="era__tags">
+                        <span class="chip">The Basement Court</span>
+                        <span class="chip">Optic-Green Era</span>
+                    </div>
+                </article>
 
             </div>
+
+            <!-- Fixed progress rail: where you are across the six eras -->
+            <nav class="tl-nav" aria-label="Timeline progress">
+                <div class="tl-status">
+                    <span class="tl-status__count"><b class="tl-status__num">01</b> / 06</span>
+                    <span class="tl-status__name">The Scooter Party</span>
+                </div>
+                <div class="rail">
+                    <div class="rail__fill" aria-hidden="true"></div>
+                    <button type="button" class="node" data-i="0" aria-label="Jump to Era 01: The Scooter Party"><span class="node__dot"></span><span class="node__year">2017</span></button>
+                    <button type="button" class="node" data-i="1" aria-label="Jump to Era 02: Infrastructure"><span class="node__dot"></span><span class="node__year">2018</span></button>
+                    <button type="button" class="node" data-i="2" aria-label="Jump to Era 03: The Waterview War"><span class="node__dot"></span><span class="node__year">2019</span></button>
+                    <button type="button" class="node" data-i="3" aria-label="Jump to Era 04: The Dark Ages"><span class="node__dot"></span><span class="node__year">2020</span></button>
+                    <button type="button" class="node" data-i="4" aria-label="Jump to Era 05: The WPL Era"><span class="node__dot"></span><span class="node__year">2022</span></button>
+                    <button type="button" class="node" data-i="5" aria-label="Jump to Era 06: The Rise of Pickleball"><span class="node__dot"></span><span class="node__year">2026</span></button>
+                </div>
+            </nav>
         </div>
     </section>
 
@@ -348,6 +558,11 @@
                     <li>Vidhyut</li>
                     <li>Agastya</li>
                     <li>Samarth</li>
+                    <li>Vigyaan</li>
+                    <li>Adhavan</li>
+                    <li>Arjun</li>
+                    <li>Seth</li>
+                    <li>Yash</li>
                 </ul>
             </div>
             <div class="roster-card">
@@ -358,6 +573,7 @@
                     <li>Chester</li>
                     <li>Xiao An</li>
                     <li>Aarnav</li>
+                    <li>Axl</li>
                 </ul>
             </div>
             <div class="roster-card">
@@ -370,27 +586,92 @@
     </section>
 
     <script>
+        // Enable JS-only enhancements (scroll-reveal); no-JS keeps all content visible.
+        document.body.classList.add('js');
+
+        // Reveal roster cards as they scroll into view.
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const rosterCards = document.querySelectorAll('.roster-card');
+        if (reduceMotion || !('IntersectionObserver' in window)) {
+            rosterCards.forEach(card => card.classList.add('in-view'));
+        } else {
+            const rosterObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('in-view');
+                        rosterObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            rosterCards.forEach(card => rosterObserver.observe(card));
+        }
+
+        // --- Timeline: vertical scroll drives horizontal travel ---
         const track = document.getElementById('track');
         const trigger = document.getElementById('timelineTrigger');
+        const eras = Array.from(track.querySelectorAll('.era'));
+        const nav = document.querySelector('.tl-nav');
+        const fill = document.querySelector('.rail__fill');
+        const nodes = Array.from(document.querySelectorAll('.node'));
+        const statusNum = document.querySelector('.tl-status__num');
+        const statusName = document.querySelector('.tl-status__name');
 
-        window.addEventListener('scroll', () => {
-            const triggerRect = trigger.getBoundingClientRect();
-            const viewportHeight = window.innerHeight;
-            
-            // Calculate how far we are into the 700vh section
-            // We only move the cards while the section is "Sticky"
-            if (triggerRect.top <= 0 && triggerRect.bottom >= viewportHeight) {
-                const totalScrollableHeight = trigger.offsetHeight - viewportHeight;
-                const currentScrollProgress = Math.abs(triggerRect.top) / totalScrollableHeight;
-                
-                // Calculate horizontal move
-                // Track length minus screen width
-                const maxHorizontal = track.scrollWidth - window.innerWidth;
-                const translateX = currentScrollProgress * maxHorizontal;
-                
-                track.style.transform = `translateX(-${translateX}px)`;
-            }
+        // Each era's accent + name, read once for the rail/status.
+        const accents = eras.map(e => e.style.getPropertyValue('--accent').trim());
+        const eraNames = eras.map(e => e.dataset.name);
+
+        const clamp = (n, lo, hi) => Math.min(hi, Math.max(lo, n));
+        const maxScroll = () => track.scrollWidth - window.innerWidth;
+
+        let activeIndex = -1;
+        function setActive(i) {
+            if (i === activeIndex) return;
+            activeIndex = i;
+            eras.forEach((e, idx) => e.classList.toggle('is-active', idx === i));
+            nodes.forEach((n, idx) => {
+                n.classList.toggle('is-active', idx === i);
+                n.classList.toggle('is-done', idx < i);
+            });
+            nav.style.setProperty('--accent-active', accents[i] || 'var(--cyan)');
+            statusNum.textContent = String(i + 1).padStart(2, '0');
+            statusName.textContent = eraNames[i] || '';
+        }
+
+        function update() {
+            const rect = trigger.getBoundingClientRect();
+            const scrollable = trigger.offsetHeight - window.innerHeight;
+            const progress = clamp(-rect.top / scrollable, 0, 1);
+
+            track.style.transform = `translateX(${-progress * maxScroll()}px)`;
+            fill.style.width = (progress * 100) + '%';
+
+            // Active era = whichever card sits nearest the viewport centre.
+            const centre = window.innerWidth / 2;
+            let best = 0, bestDist = Infinity;
+            eras.forEach((e, idx) => {
+                const r = e.getBoundingClientRect();
+                const dist = Math.abs(r.left + r.width / 2 - centre);
+                if (dist < bestDist) { bestDist = dist; best = idx; }
+            });
+            setActive(best);
+        }
+
+        // Click a node to glide to that era.
+        nodes.forEach((node, i) => {
+            node.addEventListener('click', () => {
+                const target = clamp(
+                    eras[i].offsetLeft + eras[i].offsetWidth / 2 - window.innerWidth / 2,
+                    0, maxScroll()
+                );
+                const p = maxScroll() ? target / maxScroll() : 0;
+                const top = trigger.offsetTop + p * (trigger.offsetHeight - window.innerHeight);
+                window.scrollTo({ top, behavior: reduceMotion ? 'auto' : 'smooth' });
+            });
         });
+
+        window.addEventListener('scroll', update, { passive: true });
+        window.addEventListener('resize', update);
+        update();
     </script>
 </body>
 </html>

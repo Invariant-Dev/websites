@@ -11,7 +11,7 @@
             --gold: #d4af37;
             --cyan: #00f3ff;
             --red: #ff003c;
-            --optic: #d6f25b; /* pickleball optic-green accent (Summer 2026) */
+            --optic: #d6f25b;
             --glass: rgba(10, 10, 15, 0.8);
             --border: rgba(255, 255, 255, 0.1);
             --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -27,7 +27,6 @@
             line-height: 1.6;
         }
 
-        /* --- 1. STAR WARS INTRO --- */
         .intro-container {
             height: 100vh;
             background: #000;
@@ -87,10 +86,8 @@
             animation: pulse 2s infinite;
         }
 
-        /* --- 2. THE TIMELINE (horizontal scrollytelling) --- */
         .timeline-section {
             position: relative;
-            /* Height dictates scroll length; scales with the 6 eras. */
             height: 760vh;
             background: var(--bg);
         }
@@ -102,7 +99,7 @@
             width: 100%;
             display: flex;
             align-items: center;
-            padding-bottom: 130px; /* reserves room for the progress rail */
+            padding-bottom: 130px;
             overflow: hidden;
         }
 
@@ -114,13 +111,12 @@
             will-change: transform;
         }
 
-        /* --- Era panel --- */
         .era {
             --accent: var(--cyan);
             position: relative;
             flex-shrink: 0;
             width: min(78vw, 720px);
-            max-width: calc(100vw - 40px); /* never wider than the screen */
+            max-width: calc(100vw - 40px);
             margin-right: clamp(36px, 6vw, 104px);
             padding: clamp(34px, 4.5vw, 62px);
             background: var(--glass);
@@ -129,7 +125,7 @@
             border-radius: 26px;
             overflow: hidden;
         }
-        /* Focus effect only when JS drives it; no-JS shows every era in full */
+
         .js .era {
             opacity: 0.3;
             transform: scale(0.93);
@@ -143,7 +139,6 @@
             box-shadow: 0 44px 90px rgba(0, 0, 0, 0.6);
         }
 
-        /* Big ghosted era numeral — honest sequence marker */
         .era__index {
             position: absolute;
             top: -0.18em;
@@ -221,7 +216,7 @@
             border-color: color-mix(in srgb, var(--accent) 38%, transparent);
         }
 
-        /* --- Progress rail (fixed within the sticky stage) --- */
+
         .tl-nav {
             position: absolute;
             left: 50%;
@@ -317,7 +312,6 @@
         .node.is-active .node__year { color: #fff; }
         .node:focus-visible .node__dot { outline: 2px solid #fff; outline-offset: 4px; }
 
-        /* --- 3. THE ROSTER (Wall of Legends) --- */
         .roster-section {
             padding: 150px 10vw;
             background: #000;
@@ -376,9 +370,6 @@
             50% { opacity: 0.8; }
         }
 
-        /* --- 4. NAME HIGHLIGHT (within era bodies) --- */
-        /* Each player name carries a court-line in its era's accent;
-           hover/focus fills it in. */
         .player {
             color: #fff;
             font-weight: 600;
@@ -394,8 +385,7 @@
             outline: none;
         }
 
-        /* Scroll-reveal for roster cards (progressive enhancement:
-           only hidden when JS is active, so no-JS still shows everything) */
+
         .js .roster-card {
             opacity: 0;
             transform: translateY(30px);
@@ -403,7 +393,6 @@
         }
         .js .roster-card.in-view { opacity: 1; transform: none; }
 
-        /* Responsive Fixes */
         @media (max-width: 768px) {
             .era { width: min(86vw, 560px); border-radius: 20px; }
             .era__index { font-size: clamp(110px, 30vw, 170px); }
@@ -414,7 +403,6 @@
             .tl-status { margin-bottom: 16px; }
         }
 
-        /* Respect reduced-motion: keep content, drop the motion */
         @media (prefers-reduced-motion: reduce) {
             * { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; }
             .crawl-content { animation: none; transform: rotateX(0) translateY(0); }
@@ -448,10 +436,6 @@
                     <h2 class="era__title">The Scooter Party</h2>
                     <div class="era__rule" aria-hidden="true"></div>
                     <p class="era__body">The tribal period. No formal rules — just raw games of Hide and Seek and Apocalypse. Arjun and Adhavan, the first friends who started a decade of lore.</p>
-                    <div class="era__tags">
-                        <span class="chip">Unification Phase I</span>
-                        <span class="chip">The Tribe</span>
-                    </div>
                 </article>
 
                 <article class="era" style="--accent: #00f3ff" data-name="Infrastructure">
@@ -460,10 +444,6 @@
                     <h2 class="era__title">Infrastructure</h2>
                     <div class="era__rule" aria-hidden="true"></div>
                     <p class="era__body">Kaihaan Jolly, Kian Nizami, and Vihaan More join the ranks. The games evolve: Virus, Floor is Lava, and Cops &amp; Robbers define this expanding world.</p>
-                    <div class="era__tags">
-                        <span class="chip">Core Members Joined</span>
-                        <span class="chip">Growth</span>
-                    </div>
                 </article>
 
                 <article class="era" style="--accent: #ff003c" data-name="The Waterview War">
@@ -472,10 +452,6 @@
                     <h2 class="era__title">The Waterview War</h2>
                     <div class="era__rule" aria-hidden="true"></div>
                     <p class="era__body">A schism splits the group. A time of conflict, rock-throwing, and sticks turned to weapons. Only an overseer's intervention finally brought the peace.</p>
-                    <div class="era__tags">
-                        <span class="chip">The Schism</span>
-                        <span class="chip">Conflict Era</span>
-                    </div>
                 </article>
 
                 <article class="era" style="--accent: #8a93a6" data-name="The Dark Ages">
@@ -484,10 +460,6 @@
                     <h2 class="era__title">The Dark Ages</h2>
                     <div class="era__rule" aria-hidden="true"></div>
                     <p class="era__body">Interaction prohibited by the world. COVID forces isolation and legends depart. Those who survived this stretch are the true OGs of Waterview.</p>
-                    <div class="era__tags">
-                        <span class="chip">Isolation</span>
-                        <span class="chip">The Filter</span>
-                    </div>
                 </article>
 
                 <article class="era" style="--accent: #2fd07a" data-name="The WPL Era">
@@ -496,10 +468,6 @@
                     <h2 class="era__title">The WPL Era</h2>
                     <div class="era__rule" aria-hidden="true"></div>
                     <p class="era__body">The term WPL is coined. Football becomes the primary language, and Dhyanam finally joins after years of stubbornness. A different kind of peace reigns.</p>
-                    <div class="era__tags">
-                        <span class="chip">WPL Formed</span>
-                        <span class="chip">Football Era</span>
-                    </div>
                 </article>
 
                 <article class="era" style="--accent: #d6f25b" data-name="The Rise of Pickleball">
@@ -518,15 +486,10 @@
                         Word spread, <span class="player" tabindex="0">Vihaan</span> caught the bug,
                         and the official pickleball circle was born.
                     </p>
-                    <div class="era__tags">
-                        <span class="chip">The Basement Court</span>
-                        <span class="chip">Optic-Green Era</span>
-                    </div>
                 </article>
 
             </div>
 
-            <!-- Fixed progress rail: where you are across the six eras -->
             <nav class="tl-nav" aria-label="Timeline progress">
                 <div class="tl-status">
                     <span class="tl-status__count"><b class="tl-status__num">01</b> / 06</span>
@@ -575,6 +538,7 @@
                     <li>Xiao An</li>
                     <li>Aarnav</li>
                     <li>Axl</li>
+                    <li>Adi</li>
                 </ul>
             </div>
             <div class="roster-card">
@@ -587,10 +551,8 @@
     </section>
 
     <script>
-        // Enable JS-only enhancements (scroll-reveal); no-JS keeps all content visible.
         document.body.classList.add('js');
 
-        // Reveal roster cards as they scroll into view.
         const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const rosterCards = document.querySelectorAll('.roster-card');
         if (reduceMotion || !('IntersectionObserver' in window)) {
@@ -607,7 +569,6 @@
             rosterCards.forEach(card => rosterObserver.observe(card));
         }
 
-        // --- Timeline: vertical scroll drives horizontal travel ---
         const track = document.getElementById('track');
         const trigger = document.getElementById('timelineTrigger');
         const eras = Array.from(track.querySelectorAll('.era'));
@@ -617,7 +578,6 @@
         const statusNum = document.querySelector('.tl-status__num');
         const statusName = document.querySelector('.tl-status__name');
 
-        // Each era's accent + name, read once for the rail/status.
         const accents = eras.map(e => e.style.getPropertyValue('--accent').trim());
         const eraNames = eras.map(e => e.dataset.name);
 
@@ -646,7 +606,6 @@
             track.style.transform = `translateX(${-progress * maxScroll()}px)`;
             fill.style.width = (progress * 100) + '%';
 
-            // Active era = whichever card sits nearest the viewport centre.
             const centre = window.innerWidth / 2;
             let best = 0, bestDist = Infinity;
             eras.forEach((e, idx) => {
@@ -657,7 +616,6 @@
             setActive(best);
         }
 
-        // Click a node to glide to that era.
         nodes.forEach((node, i) => {
             node.addEventListener('click', () => {
                 const target = clamp(
